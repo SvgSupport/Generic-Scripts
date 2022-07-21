@@ -32,6 +32,7 @@ $UninstallPackages = @(
     "AD2F1837.HPQuickTouch"
     "AD2F1837.HPEasyClean"
     "AD2F1837.HPSystemInformation"
+    "Tile.TileWindowsApplication"
 )
 
 # List of programs to uninstall

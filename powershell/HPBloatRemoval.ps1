@@ -103,17 +103,17 @@ $InstalledPrograms | ForEach-Object {
 # Fallback attempt 1 to remove HP Wolf Security using msiexec
 Try {
     MsiExec /x "{0E2E04B0-9EDD-11EB-B38C-10604B96B11E}" /qn /norestart
-    Write-Host -Value "Fallback to MSI uninistall for HP Wolf Security initiated"
+    Write-Host -Object "Fallback to MSI uninistall for HP Wolf Security initiated"
 }
 Catch {
-    Write-Warning -Message "Failed to uninstall HP Wolf Security using MSI - Error message: $($_.Exception.Message)"
+    Write-Warning -Message "Failed to uninstall HP Wolf Security using MSI - Error message: [$($_.Exception.Message)]"
 }
 
 # Fallback attempt 2 to remove HP Wolf Security using msiexec
 Try {
     MsiExec /x "{4DA839F0-72CF-11EC-B247-3863BB3CB5A8}" /qn /norestart
-    Write-Host -Value "Fallback to MSI uninistall for HP Wolf 2 Security initiated"
+    Write-Host -Object "Fallback to MSI uninistall for HP Wolf 2 Security initiated"
 }
 Catch {
-    Write-Warning -Message  "Failed to uninstall HP Wolf Security 2 using MSI - Error message: $($_.Exception.Message)"
+    Write-Warning -Message  "Failed to uninstall HP Wolf Security 2 using MSI - Error message: [$($_.Exception.Message)]"
 }

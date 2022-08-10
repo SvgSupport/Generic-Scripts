@@ -1,17 +1,3 @@
-#	██████╗ ███████╗███╗   ███╗ ██████╗ ██╗   ██╗███████╗    ██╗  ██╗██████╗    
-#	██╔══██╗██╔════╝████╗ ████║██╔═══██╗██║   ██║██╔════╝    ██║  ██║██╔══██╗   
-#	██████╔╝█████╗  ██╔████╔██║██║   ██║██║   ██║█████╗      ███████║██████╔╝   
-#	██╔══██╗██╔══╝  ██║╚██╔╝██║██║   ██║╚██╗ ██╔╝██╔══╝      ██╔══██║██╔═══╝    
-#	██║  ██║███████╗██║ ╚═╝ ██║╚██████╔╝ ╚████╔╝ ███████╗    ██║  ██║██║        
-#	╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝    ╚═╝  ╚═╝╚═╝        
-#																				
-#	██████╗ ██╗      ██████╗  █████╗ ████████╗██╗    ██╗ █████╗ ██████╗ ███████╗
-#	██╔══██╗██║     ██╔═══██╗██╔══██╗╚══██╔══╝██║    ██║██╔══██╗██╔══██╗██╔════╝
-#	██████╔╝██║     ██║   ██║███████║   ██║   ██║ █╗ ██║███████║██████╔╝█████╗  
-#	██╔══██╗██║     ██║   ██║██╔══██║   ██║   ██║███╗██║██╔══██║██╔══██╗██╔══╝  
-#	██████╔╝███████╗╚██████╔╝██║  ██║   ██║   ╚███╔███╔╝██║  ██║██║  ██║███████╗
-#	╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝    ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
-#		                                     
 #   Remove HP bloatware / crapware
 #  
 # -- source : https://gist.github.com/mark05e/a79221b4245962a477a49eb281d97388
@@ -34,7 +20,7 @@ $UninstallPackages = @(
     "AD2F1837.HPSystemInformation"
     "Tile.TileWindowsApplication"
 )
-
+    
 # List of programs to uninstall
 $UninstallPrograms = @(
     "HP Client Security Manager"
@@ -47,7 +33,7 @@ $UninstallPrograms = @(
     "HP Sure Click"
     "HP Sure Click Security Browser"
     "HP Sure Run"
-	"HP Sure Run Module"
+    "HP Sure Run Module"
     "HP Sure Recover"
     "HP Sure Sense"
     "HP Sure Sense Installer"
@@ -74,19 +60,19 @@ Write-Host -Object  "Succesfully created Install Shield file C:\temp\isshpco.iss
 
 if (Test-Path $HPCOuninstall -PathType Leaf)
 {
-	Try 
-	{
-        & $HPCOuninstall -runfromtemp -l0x0413  -removeonly -s -f1C:\Windows\install\uninstallHPCO.iss
+    Try
+    {
+        & $HPCOuninstall -runfromtemp -l0x0413  -removeonly -s -f1C:\temp\isshpco.iss
         Write-Host -Object "Successfully removed HP Connection Optimizer"
     }
-	Catch 
-	{
-		Write-Warning -Message  "Error uninstalling HP Connection Optimizer: $($_.Exception.Message)"
+    Catch 
+    {
+        Write-Warning -Message  "Error uninstalling HP Connection Optimizer: $($_.Exception.Message)"
     }
 }
 else
 {
-	Write-Warning -Message  "HP Connection Optimizer not found"
+    Write-Warning -Message  "HP Connection Optimizer not found"
 }
 
 
@@ -143,3 +129,6 @@ Try {
 Catch {
     Write-Warning -Message  "Failed to uninstall HP Wolf Security 2 using MSI - Error message: [$($_.Exception.Message)]"
 }
+
+Remove-Item -Path C:\temp\isshpco.iss -Force
+Remove-Item -Path C:\temp\setup.log -Force

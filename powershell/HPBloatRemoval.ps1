@@ -47,6 +47,7 @@ $UninstallPrograms = @(
     "HP Sure Click"
     "HP Sure Click Security Browser"
     "HP Sure Run"
+	"HP Sure Run Module"
     "HP Sure Recover"
     "HP Sure Sense"
     "HP Sure Sense Installer"
@@ -64,6 +65,30 @@ $ProvisionedPackages = Get-AppxProvisionedPackage -Online `
             | Where-Object {($UninstallPackages -contains $_.DisplayName) -or ($_.DisplayName -match "^$HPidentifier")}
 
 $InstalledPrograms = Get-Package | Where-Object {$UninstallPrograms -contains $_.Name}
+
+# Remove HP Connection Optimizer - ISS
+$HPCOuninstall = "C:\Program Files (x86)\InstallShield Installation Information\{6468C4A5-E47E-405F-B675-A70A70983EA6}\setup.exe"
+
+$(Invoke-WebRequest https://raw.githubusercontent.com/SvgSupport/Generic-Scripts/main/resources/isshpco.iss).Content | Out-File -FilePath "C:\temp\isshpco.iss"
+Write-LogEntry -Value  "Succesfully created Install Shield file C:\temp\isshpco.iss" -Severity 1
+
+if (Test-Path $HPCOuninstall -PathType Leaf)
+{
+	Try 
+	{
+        & $HPCOuninstall -runfromtemp -l0x0413  -removeonly -s -f1C:\Windows\install\uninstallHPCO.iss
+        Write-LogEntry -Value "Successfully removed HP Connection Optimizer" -Severity 1
+    }
+	Catch 
+	{
+		Write-LogEntry -Value  "Error uninstalling HP Connection Optimizer: $($_.Exception.Message)" -Severity 3
+    }
+}
+else
+{
+	Write-LogEntry -Value  "HP Connection Optimizer not found" -Severity 1
+}
+
 
 # Remove appx provisioned packages - AppxProvisionedPackage
 ForEach ($ProvPackage in $ProvisionedPackages) {

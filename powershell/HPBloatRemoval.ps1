@@ -75,6 +75,25 @@ else
     Write-Warning -Message  "HP Connection Optimizer not found"
 }
 
+# Remove HP Documentation (non MSI Approach)
+$HPDocUnistall = "C:\Program Files\HP\Documentation\Doc_uninstall.cmd"
+
+if (Test-Path $HPDocUnistall -PathType Leaf)
+{
+    Try
+    {
+        ('"{0}"' -f $HPDocUnistall) | cmd
+        Write-Host -Object "Successfully removed HP Documentation"
+    }
+    Catch 
+    {
+        Write-Warning -Message  "Error uninstalling HP Documentation: $($_.Exception.Message)"
+    }
+}
+else
+{
+    Write-Warning -Message  "HP Documentation not found"
+}
 
 # Remove appx provisioned packages - AppxProvisionedPackage
 ForEach ($ProvPackage in $ProvisionedPackages) {
